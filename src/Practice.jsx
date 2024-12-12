@@ -1,27 +1,45 @@
-import { useRef } from "react";
+import { useState } from "react";
 
 function Practice() {
-  const input = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Will prevent refresh of page
-    console.log(input.current.value);
-  };
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   return (
     <form
       className="flex min-h-screen w-full flex-col items-center justify-center gap-3 bg-lime-100"
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log("Form submit!");
+        console.log(fullname, email, message);
+      }}
     >
-      <h1 className="text-2xl">User typing: </h1>
       <input
         type="text"
         name="fullname"
         id="fullname"
         placeholder="Enter your name"
         className="rounded-lg border border-2 border-zinc-500 p-2"
-        ref={input}
-        onChange={(e) => console.log(e.target.value)}
+        value={fullname}
+        onChange={(e) => setFullname(e.target.value)}
+      />
+      <input
+        type="text"
+        name="email"
+        id="email"
+        placeholder="Enter your real email ID please!"
+        className="rounded-lg border border-2 border-zinc-500 p-2"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="text"
+        name="message"
+        id="message"
+        placeholder="Enter your message"
+        className="h-24 rounded-lg border border-2 border-zinc-500 p-2"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
       />
 
       <button
