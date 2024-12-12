@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Intro from "@/components/Intro";
 import { TbFlareFilled } from "react-icons/tb";
 
@@ -11,8 +12,20 @@ const services = [
 ];
 
 function Form() {
-  const handleSubmit = () => {
-    alert("Hi");
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (value, field) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(formData);
   };
 
   return (
@@ -26,6 +39,8 @@ function Form() {
           id="fullname"
           className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="Your name"
+          value={formData.fullname}
+          onChange={(e) => handleChange(e.target.value, "fullname")}
         />
         <input
           type="email"
@@ -33,6 +48,8 @@ function Form() {
           id="email"
           className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="your@company.com"
+          value={formData.email}
+          onChange={(e) => handleChange(e.target.value, "email")}
         />
         <input
           type="text"
@@ -40,6 +57,8 @@ function Form() {
           id="message"
           className="h-24 border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="Tell us a little about your project..."
+          value={formData.message}
+          onChange={(e) => handleChange(e.target.value, "message")}
         />
 
         <p className="my-6 text-gray-700">How can we help?</p>
