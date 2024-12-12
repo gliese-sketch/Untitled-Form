@@ -1,9 +1,15 @@
 import { useState } from "react";
 
 function Practice() {
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (value, field) => {
+    setFormData({ ...formData, [field]: value });
+  };
 
   return (
     <form
@@ -11,7 +17,7 @@ function Practice() {
       onSubmit={(e) => {
         e.preventDefault();
         console.log("Form submit!");
-        console.log(fullname, email, message);
+        console.log(formData);
       }}
     >
       <input
@@ -20,8 +26,8 @@ function Practice() {
         id="fullname"
         placeholder="Enter your name"
         className="rounded-lg border border-2 border-zinc-500 p-2"
-        value={fullname}
-        onChange={(e) => setFullname(e.target.value)}
+        value={formData.fullname}
+        onChange={(e) => handleChange(e.target.value, "fullname")}
       />
       <input
         type="text"
@@ -29,8 +35,8 @@ function Practice() {
         id="email"
         placeholder="Enter your real email ID please!"
         className="rounded-lg border border-2 border-zinc-500 p-2"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={formData.email}
+        onChange={(e) => handleChange(e.target.value, "email")}
       />
       <input
         type="text"
@@ -38,8 +44,8 @@ function Practice() {
         id="message"
         placeholder="Enter your message"
         className="h-24 rounded-lg border border-2 border-zinc-500 p-2"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        value={formData.message}
+        onChange={(e) => handleChange(e.target.value, "message")}
       />
 
       <button
