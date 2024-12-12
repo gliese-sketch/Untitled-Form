@@ -1,27 +1,24 @@
-import { TbNorthStar, TbFlareFilled } from "react-icons/tb";
+import Intro from "@/components/Intro";
+import { TbFlareFilled } from "react-icons/tb";
+
+const services = [
+  "Website Design",
+  "Content",
+  "UX Design",
+  "Strategy",
+  "User Research",
+  "Other",
+];
 
 function Form() {
-  const services = [
-    "Website Design",
-    "Content",
-    "UX Design",
-    "Strategy",
-    "User Research",
-    "Other",
-  ];
+  const handleSubmit = () => {
+    alert("Hi");
+  };
 
   return (
     <>
-      <h1 className="max-w-96 text-3xl font-semibold">
-        Got Ideas?{" "}
-        <TbNorthStar className="inline-block text-lime-500 md:text-black" />
-        We've got the skills. Let's team up.
-      </h1>
-      <p className="my-6 text-xl">
-        Tell us more about yourself and what's on your mind.
-      </p>
-
-      <form className="flex flex-col gap-2">
+      <Intro />
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         {/* Inputs */}
         <input
           type="text"
