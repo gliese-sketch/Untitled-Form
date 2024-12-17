@@ -18,14 +18,23 @@ function Form() {
     message: "",
   });
 
-  const handleChange = (value, field) => {
-    setFormData({ ...formData, [field]: value });
-  };
+  const [activeServices, setActiveServices] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(formData);
+    console.log(activeServices);
+  };
+
+  const handleChange = (value, field) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
+  const handleCheckbox = (status, service) => {
+    setActiveServices((prevState) =>
+      status ? [...prevState, service] : prevState.filter((v) => v !== service),
+    );
   };
 
   return (
@@ -71,7 +80,12 @@ function Form() {
                 key={service + index}
                 className="flex cursor-pointer items-center gap-2"
               >
-                <input type="checkbox" name="services" className="size-5" />{" "}
+                <input
+                  type="checkbox"
+                  name="services"
+                  className="size-5"
+                  onChange={(e) => handleCheckbox(e.target.checked, service)}
+                />{" "}
                 {service}
               </label>
             );
