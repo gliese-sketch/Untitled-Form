@@ -19,7 +19,6 @@ function Form() {
   } = useForm();
 
   const handleFormSubmit = (value) => {
-    console.log(errors);
     console.log(value);
   };
 
@@ -28,42 +27,58 @@ function Form() {
       <Intro />
       <form
         className="flex flex-col gap-2"
-        onSubmit={handleSubmit(handleFormSubmit)}
+        // onSubmit={handleSubmit(handleFormSubmit)}
+        action="https://docs.google.com/forms/d/e/1FAIpQLSetnGeLJNT9AfhvbE8BkoTNJryOAhwEu2m90Z3pATNKqkkJ9w/formResponse"
       >
         {/* Inputs */}
         <input
           type="text"
-          name="fullname"
           id="fullname"
-          {...register("fullname", {
-            required: true,
-            message: "Please provide full name",
+          {...register("entry.1476290716", {
+            required: "Please provide your full name",
           })}
           className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="Your name"
         />
-        {errors.fullname && <p>Please enter your full name</p>}
+        {errors.fullname && (
+          <p className="text-red-500">{errors.fullname.message}</p>
+        )}
 
         <input
           type="email"
-          name="email"
           id="email"
-          {...register("email")}
+          {...register("entry.284078694", {
+            required: "Email is required",
+            pattern: {
+              value: /^[^@]+@[^@]+\.[^@]+$/,
+              message: "Invalid email address",
+            },
+          })}
           className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="your@company.com"
         />
+        {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+
         <input
           type="text"
-          name="message"
           id="message"
-          {...register("message")}
+          {...register("entry.313453002", {
+            required: "Please provide details about your project",
+            minLength: {
+              value: 5,
+              message: "Message should be at least 5 characters long",
+            },
+          })}
           className="h-24 border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
           placeholder="Tell us a little about your project..."
         />
+        {errors.message && (
+          <p className="text-red-500">{errors.message.message}</p>
+        )}
 
         <p className="my-6 text-gray-700">How can we help?</p>
 
-        {/* Checbox */}
+        {/* Checkbox */}
         <div className="mb-8 grid grid-cols-2 md:max-w-96">
           {services.map((service, index) => {
             return (
@@ -73,21 +88,25 @@ function Form() {
               >
                 <input
                   type="checkbox"
-                  name="services"
                   value={service}
-                  {...register("service")}
+                  {...register("entry.1278134381", {
+                    required: "Select at-least one!",
+                  })}
                   className="size-5"
                 />
                 {service}
               </label>
             );
           })}
+
+          {errors.services && (
+            <p className="text-red-500">{errors.services.message}</p>
+          )}
         </div>
 
         <button
           type="submit"
           className="flex items-center justify-center gap-2 rounded-lg bg-zinc-950 p-1 text-white md:p-2"
-          onMouseOver={() => console.log(errors.fullname)}
         >
           Let's get started <TbFlareFilled className="text-lime-400" />
         </button>
