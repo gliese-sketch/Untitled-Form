@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 px-4 py-3 md:px-8">
       <Header />
-
+ 
       <main className="mx-auto grid max-w-7xl grid-cols-8">
         <div className="col-span-2 hidden md:block">
           <Aside />

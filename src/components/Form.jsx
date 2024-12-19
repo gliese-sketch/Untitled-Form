@@ -18,8 +18,8 @@ function Form() {
     formState: { errors },
   } = useForm();
 
-  const handleFormSubmit = (value) => {
-    console.log(value);
+  const handleFormSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -27,14 +27,13 @@ function Form() {
       <Intro />
       <form
         className="flex flex-col gap-2"
-        // onSubmit={handleSubmit(handleFormSubmit)}
-        action="https://docs.google.com/forms/d/e/1FAIpQLSetnGeLJNT9AfhvbE8BkoTNJryOAhwEu2m90Z3pATNKqkkJ9w/formResponse"
+        onSubmit={handleSubmit(handleFormSubmit)}
       >
         {/* Inputs */}
         <input
           type="text"
           id="fullname"
-          {...register("entry.1476290716", {
+          {...register("fullname", {
             required: "Please provide your full name",
           })}
           className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
@@ -47,7 +46,7 @@ function Form() {
         <input
           type="email"
           id="email"
-          {...register("entry.284078694", {
+          {...register("email", {
             required: "Email is required",
             pattern: {
               value: /^[^@]+@[^@]+\.[^@]+$/,
@@ -62,7 +61,7 @@ function Form() {
         <input
           type="text"
           id="message"
-          {...register("entry.313453002", {
+          {...register("message", {
             required: "Please provide details about your project",
             minLength: {
               value: 5,
@@ -89,7 +88,7 @@ function Form() {
                 <input
                   type="checkbox"
                   value={service}
-                  {...register("entry.1278134381", {
+                  {...register("services", {
                     required: "Select at-least one!",
                   })}
                   className="size-5"
