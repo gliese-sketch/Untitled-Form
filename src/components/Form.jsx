@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import Intro from "@/components/Intro";
 import { TbFlareFilled } from "react-icons/tb";
 
+console.log(import.meta.env.VITE_SUBMIT_URL);
+
 const services = [
   "Website Design",
   "Content",
@@ -19,7 +21,17 @@ function Form() {
   } = useForm();
 
   const handleFormSubmit = (data) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append(import.meta.env.VITE_FULLNAME, data.fullname);
+    formData.append(import.meta.env.VITE_EMAIL, data.email);
+    formData.append(import.meta.env.VITE_MESSAGE, data.message);
+    formData.append(import.meta.env.VITE_SERVICES, data.services);
+
+    fetch(import.meta.env.VITE_SUBMIT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData,
+    }).then(() => console.log("Form is submitted!"));
   };
 
   return (
