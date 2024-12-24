@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import Intro from "@/components/Intro";
 import { TbFlareFilled } from "react-icons/tb";
 
-console.log(import.meta.env.VITE_SUBMIT_URL);
 
 const services = [
   "Website Design",
