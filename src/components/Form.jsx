@@ -1,3 +1,4 @@
+import { spamCheck, submitToGoogleForms } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Intro from "@/components/Intro";
@@ -22,29 +23,11 @@ function Form() {
   } = useForm();
 
   const handleFormSubmit = async (data) => {
-    const apiRes = await fetch("https://vector.profanity.dev", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: data.message }),
-    });
+    const spamData = await spamCheck(data.message);
 
-    const apiData = await apiRes.json();
+    if (spamData.isProfanity) return navigate("/error");
 
-    if (apiData.isProfanity) return navigate("/error");
-
-    const formData = new FormData();
-    formData.append(import.meta.env.VITE_FULLNAME, data.fullname);
-    formData.append(import.meta.env.VITE_EMAIL, data.email);
-    formData.append(import.meta.env.VITE_MESSAGE, data.message);
-    formData.append(import.meta.env.VITE_SERVICES, data.services);
-
-    await fetch(import.meta.env.VITE_SUBMIT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      body: formData,
-    });
+    await submitToGoogleForms(data);
 
     return navigate("/success");
   };
@@ -63,7 +46,7 @@ function Form() {
           {...register("fullname", {
             required: "Please provide your full name",
           })}
-          className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
+          className="text-input"
           placeholder="Your name"
         />
         {errors.fullname && (
@@ -80,7 +63,7 @@ function Form() {
               message: "Invalid email address",
             },
           })}
-          className="border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
+          className="text-input"
           placeholder="your@company.com"
         />
         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
@@ -95,7 +78,7 @@ function Form() {
               message: "Message should be at least 5 characters long",
             },
           })}
-          className="h-24 border-b border-stone-700 p-2 placeholder-gray-700 md:bg-lime-400"
+          className="text-input h-24"
           placeholder="Tell us a little about your project..."
         />
         {errors.message && (
