@@ -1,7 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Intro from "@/components/Intro";
 import { TbFlareFilled } from "react-icons/tb";
-
 
 const services = [
   "Website Design",
@@ -13,24 +13,40 @@ const services = [
 ];
 
 function Form() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = async (data) => {
+    const apiRes = await fetch("https://vector.profanity.dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: data.message }),
+    });
+
+    const apiData = await apiRes.json();
+
+    if (apiData.isProfanity) return navigate("/error");
+
     const formData = new FormData();
     formData.append(import.meta.env.VITE_FULLNAME, data.fullname);
     formData.append(import.meta.env.VITE_EMAIL, data.email);
     formData.append(import.meta.env.VITE_MESSAGE, data.message);
     formData.append(import.meta.env.VITE_SERVICES, data.services);
 
-    fetch(import.meta.env.VITE_SUBMIT_URL, {
+    await fetch(import.meta.env.VITE_SUBMIT_URL, {
       method: "POST",
       mode: "no-cors",
       body: formData,
-    }).then(() => console.log("Form is submitted!"));
+    });
+
+    return navigate("/success");
   };
 
   return (
